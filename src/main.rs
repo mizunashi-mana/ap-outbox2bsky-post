@@ -54,7 +54,7 @@ enum Commands {
         #[arg(long)]
         outbox_url: String,
 
-        #[arg(long, default_value_t = String::from("[マストドン投稿から]:"))]
+        #[arg(long, default_value_t = String::from("[Fediverse Post]:"))]
         original_link_prefix: String,
 
         #[arg(long, default_value_t = 300)]
