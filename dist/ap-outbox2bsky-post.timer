@@ -1,0 +1,10 @@
+[Unit]
+Description=The timer of ActivityPub Outbox to Bluesky posts
+ConditionPathExists=/var/lib/ap-outbox2bsky-post
+
+[Timer]
+OnCalendar=*:0/2
+Persistent=true
+
+[Install]
+WantedBy=timers.target

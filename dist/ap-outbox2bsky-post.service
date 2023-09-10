@@ -1,0 +1,10 @@
+[Unit]
+Description=ActivityPub Outbox to Bluesky posts
+
+[Service]
+Type=oneshot
+EnvironmentFile=/etc/default/ap-outbox2bsky-post
+ExecStart=/usr/local/bin/ap-outbox2bsky-post \
+    --filelock-path /var/lib/ap-outbox2bsky-post/post.lock \
+    --db-path /var/lib/ap-outbox2bsky-post/db.txt \
+    run --outbox-url "$OUTBOX_URL"
