@@ -23,15 +23,22 @@ jobs:
             -   name: Install rust
                 uses: dtolnay/rust-toolchain@stable
 
+            -   name: Check version
+                if: startsWith(github.ref, 'refs/tags/')
+                run: |
+                    [ "v$(cargo metadata --format-version 1 --no-deps | jq -r '.packages[0].version')" = "$GITHUB_REF_NAME" ]
+
             -   name: Build
                 run: cargo build --release --verbose --target=${{ matrix.target }}
 
             -   name: Build
-                run: cp target/${{ matrix.target }}/release/ap-outbox2bsky-post ap-outbox2bsky-post.${{ matrix.target }}
+                run: |
+                    mkdir -p dest
+                    cp target/${{ matrix.target }}/release/ap-outbox2bsky-post dest/ap-outbox2bsky-post.${{ matrix.target }}
 
             -   name: Release
                 uses: softprops/action-gh-release@v1
                 if: startsWith(github.ref, 'refs/tags/')
                 with:
                     files: |
-                        ./ap-outbox2bsky-post.*
+                        ./dest/*
